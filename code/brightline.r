@@ -15,7 +15,7 @@
 #   ____________________________________________________________________________
 #   load libraries and data                                                 ####
 
-source("./code/analysis/analysis_prelims.r")
+source("./code/analysis_prelims.r")
 
 
 #   ____________________________________________________________________________
@@ -59,7 +59,7 @@ blw19 <- read.csv("./data/BrightLineWatch/Wave 19/Public_Wave19.csv") %>%
                                        rating_USA >= 81 & rating_USA <= 90 ~ "81-90",
                                        rating_USA >= 91 ~ "91-100")) 
 
-    
+
 ##  ............................................................................
 ##  age vs us rating                                                        ####
 ageRating <- proc_freq(blw19,
@@ -105,14 +105,14 @@ ageBiden %>%
 ##  age vs Jan6 protest                                                     ####
 
 ageJan6_protest <- proc_freq(blw19,
-                      "age_range",
-                      "January_6th_a",
-                      include.table_percent = FALSE) %>% 
+                             "age_range",
+                             "January_6th_a",
+                             include.table_percent = FALSE) %>% 
     labels() %>% 
     labelizor(labels = c("January_6th_a" = "Is it appropriate or not appropriate to describe January 6th as a legitimate protest?",
                          "1" = "Appropriate",
                          "2" = "Not appropriate",
-              part = "header")) %>% 
+                         part = "header")) %>% 
     add_header_lines("Bright Line Watch Wave 19") %>% 
     center_header()
 
@@ -126,9 +126,9 @@ ageJan6_protest %>%
 ##  age vs Jan6 riot                                                        ####
 
 ageJan6_riot <- proc_freq(blw19,
-                             "age_range",
-                             "January_6th_b",
-                             include.table_percent = FALSE) %>% 
+                          "age_range",
+                          "January_6th_b",
+                          include.table_percent = FALSE) %>% 
     labels() %>% 
     labelizor(labels = c("January_6th_b" = "Is it appropriate or not appropriate to describe January 6th as a riot?",
                          "1" = "Appropriate",
@@ -147,14 +147,14 @@ ageJan6_riot %>%
 ##  age vs Jan6 insurrection                                                ####
 
 ageJan6_insurrection <- proc_freq(blw19,
-                          "age_range",
-                          "January_6th_c",
-                          include.table_percent = FALSE) %>% 
+                                  "age_range",
+                                  "January_6th_c",
+                                  include.table_percent = FALSE) %>% 
     labels() %>% 
     labelizor(labels = c("January_6th_c" = "Is it appropriate or not appropriate to describe January 6th as an insurrection?",
                          "1" = "Appropriate",
                          "2" = "Not appropriate"),
-                         part = "header") %>% 
+              part = "header") %>% 
     add_header_lines("Bright Line Watch Wave 19") %>% 
     center_header()
 

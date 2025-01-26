@@ -17,8 +17,10 @@
 #   load libraries                                                          ####
 
 library(tidyverse)          # data handling
+library(haven)              # read .sav files
 library(flextable)          # pretty tables | crosstabs
 library(modelsummary)       # pretty tables
+
 
 
 #   ____________________________________________________________________________

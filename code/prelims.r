@@ -18,9 +18,9 @@
 
 library(tidyverse)          # data handling
 library(haven)              # read .sav files
-library(flextable)          # pretty tables | crosstabs
+library(flextable)          # pretty tables | cross tabs
 library(modelsummary)       # pretty tables
-
+library(labelled)           # view variable names and labels
 
 
 #   ____________________________________________________________________________

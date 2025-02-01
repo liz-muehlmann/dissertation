@@ -42,3 +42,20 @@ fmt_me <- function(ft) {
         colformat_double(big.mark = ",", digits = 2, na_str = "N/A")
 }
 
+
+#   ____________________________________________________________________________
+#   create age range variable                                               ####
+
+age_range <- function(df, age) {
+    # age <- readline("What is the age variable called? ")
+    df <- df %>% 
+        mutate(age_range = case_when(!!sym(age) >= 18 & !!sym(age) <= 24 ~ "18-24",
+                                     !!sym(age) >= 25 & !!sym(age) <= 34 ~ "25-34",
+                                     !!sym(age) >= 35 & !!sym(age) <= 44 ~ "35-44",
+                                     !!sym(age) >= 45 & !!sym(age) <= 54 ~ "45-54",
+                                     !!sym(age) >= 55 & !!sym(age) <= 64 ~ "55-64",
+                                     !!sym(age) >= 65 & !!sym(age) <= 74 ~ "65-74",
+                                     !!sym(age) >= 75 & !!sym(age) <= 84 ~ "75-84",
+                                     !!sym(age) >= 85 & !!sym(age) != 999 ~ "85+",
+                                     .default = NA))
+}

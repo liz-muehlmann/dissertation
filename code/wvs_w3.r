@@ -44,30 +44,146 @@ variable_values <- paste(c("V"), c(2, 4:10, 12:41, 47:55, "56_01", 57:60, 65:66,
 wds_w3 <- readRDS("./data/WVS/WV3 - F00008205-WV3_Data_R_v20180912/F00008205-WV3_Data_R_v20180912.rds") %>% 
     filter(V2 == 840) %>%                                      # filter for USA
     select(all_of(variable_values)) %>% 
-    rename(country = V2,
-           importance_family = V4
-           importance_friends = V5,
-           importance_leisure = V6,
-           importance_politics = V7, 
-           importance_work = V8,
-           importance_religion = V9,
-           feel_happy = V10,
-           respect_parents = V12,
-           responsibility_parents = V13, 
-           child_manners = V14,
-           child_independence = V15,
-           child_hardWork = V16, 
-           child_responsibility = V17,
-           child_imagination = V18,
-           child_tolerance = V19,
-           child_thrifty = V20,
-           child_determination = V21,
-           child_religion = V22,
-           child_unselfish = V23,
-           child_obedience = V24,
-           child_learn1 = V25,
-           child_learn2 = V26, 
-           trust_people = V27, 
-           )
+    age_range(., "V216")     # V216
+
+
+#   ____________________________________________________________________________
+#   look at variables with labels                                           ####
+
+# view(look_for(wds_w3))
+
+#   ____________________________________________________________________________
+#   cross tabs                                                              ####
+
+
+##  ............................................................................
+##  age vs tv frequency                                                     ####
+
+ageTV <- proc_freq(wds_w3,
+                     "age_range", 
+                     "V228", 
+                     include.table_percent = FALSE) %>% 
+    labels() %>% 
+    labelizor(labels = c("age_range" = "Age Range",
+                         "V228" = "How frequently do you watch Television?")) %>% 
+    add_header_lines("World Values Trend (USA), Wave 3") %>% 
+    center_header()
+
+#### save file ####
+# ageTV %>%
+#     save_as_docx(path = "./results/prop_tables/250131_wvsw3_ageTV.docx")
+
+
+##  ............................................................................
+##  age vs trust                                                            ####
+
+ageTrust <- proc_freq(wds_w3,
+                   "age_range", 
+                   "V27", 
+                   include.table_percent = FALSE) %>% 
+    labels() %>% 
+    labelizor(labels = c("age_range" = "Age Range",
+                         "V27" = "Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people")) %>% 
+    add_header_lines("World Values Trend (USA), Wave 3") %>% 
+    center_header()
+
+#### save file ####
+# ageTrust %>%
+#     save_as_docx(path = "./results/prop_tables/250131_wvsw3_ageTrust.docx")
+
+##  ............................................................................
+##  tv vs trust                                                             ####
+
+tvTrust <- proc_freq(wds_w3,
+                      "V228", 
+                      "V27", 
+                      include.table_percent = FALSE) %>% 
+    labels() %>% 
+    labelizor(labels = c("V228" = "How frequently do you watch Television?",
+                         "V27" = "Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people")) %>% 
+    add_header_lines("World Values Trend (USA), Wave 3") %>% 
+    center_header()
+
+#### save file ####
+# ageTrust %>%
+#     save_as_docx(path = "./results/prop_tables/250131_wvsw3_tvTrust.docx")
+# 
+
+##  ............................................................................
+##  tv vs happiness                                                         ####
+
+tvHappiness <- proc_freq(wds_w3,
+                     "V228", 
+                     "V10", 
+                     include.table_percent = FALSE) %>% 
+    labels() %>% 
+    labelizor(labels = c("V228" = "How frequently do you watch Television?",
+                         "V10" = "Taking all things together, would you say you are...")) %>% 
+    add_header_lines("World Values Trend (USA), Wave 3") %>% 
+    center_header()
+
+#### save file ####
+# tvHappiness %>%
+#     save_as_docx(path = "./results/prop_tables/250131_wvsw3_tvHappiness.docx")
+
+##  ............................................................................
+##  tv vs political interest                                                  ####
+
+tvPoliticalInterest <- proc_freq(wds_w3,
+                         "V228", 
+                         "V117", 
+                         include.table_percent = FALSE) %>% 
+    labels() %>% 
+    labelizor(labels = c("V228" = "How frequently do you watch Television?",
+                         "V117" = "How interested would you say you are in politics?")) %>% 
+    add_header_lines("World Values Trend (USA), Wave 3") %>% 
+    center_header()
+
+#### save file ####
+# tvPoliticalInterest %>%
+#     save_as_docx(path = "./results/prop_tables/250131_wvsw3_tvPoliticalInterest.docx")
+
+##  ............................................................................
+##  tv vs signed a patition                                                   ####
+
+tvUnofficialStrike <- proc_freq(wds_w3,
+                                 "V228", 
+                                 "V121", 
+                                 include.table_percent = FALSE) %>% 
+    labels() %>% 
+    labelizor(labels = c("V228" = "How frequently do you watch Television?",
+                         "V121" = "Have you joined an unoffical strike?")) %>% 
+    add_header_lines("World Values Trend (USA), Wave 3") %>% 
+    center_header()
+
+#### save file ####
+# tvUnofficialStrike %>%
+#     save_as_docx(path = "./results/prop_tables/250131_wvsw3_tvUnofficialStrike.docx")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

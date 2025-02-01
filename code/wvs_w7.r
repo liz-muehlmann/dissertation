@@ -34,12 +34,13 @@ center_header <- function(ft) {
 #   load data                                                               ####
 
 
-variable_values <- paste(c("V"), c(10:24, 27, 28, 30:35, 37, 51:57, 65, 66, 75:87, 89, 92:96,
-                                   106, 110:124, 135:138, 140, 141, 144:146, 178, 179, 192:205, 214:216,
-                                   218:220, 226, 232, 233), sep="")
+variable_values <- paste(c("Q"), c(1:34, 36:46, 48:50, 56:89, 94:110, 113:120, 
+                                   131:141, 149:163, 177:260, 262, 273, 290), 
+                         sep="")
 
 # n = 2596 (US)
-wds_w7 <- read.csv("./data/WVS/WV7 - F00011356-WVS_Cross-National_Wave_7_csv_v6_0/WVS_Cross-National_Wave_7_csv_v6_0.csv") %>% 
-    filter(B_COUNTRY_ALPHA == "USA")# %>%                                       # filter for USA
-# select(all_of(variable_values))
+wds_w7 <- read_dta("./data/WVS/WV7 - F00011356-WVS_Cross-National_Wave_7_csv_v6_0/F00010734-WVS_Cross-National_Wave_7_stata_v6_0/WVS_Cross-National_Wave_7_stata_v6_0.dta") %>% 
+    filter(B_COUNTRY_ALPHA == "USA") %>%                                       # filter for USA
+    select(all_of(variable_values)) %>% 
+    age_range(., "Q262")
 

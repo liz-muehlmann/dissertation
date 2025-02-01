@@ -41,7 +41,7 @@ variable_values <- paste(c("V"), c(10:24, 27, 28, 30:35, 37, 51:57, 65, 66, 75:8
 # n = 2325 (US)
 wds_w1 <- readRDS("./data/WVS/WV1 - F00008371-WV1_Data_R_v20200208/WV1_Data_R_v20200208.rds") %>% 
     filter(V2 == 840) %>%                                       # filter for USA
-    select(all_of(variable_values))
+    select(all_of(variable_values)) 
 
 
 

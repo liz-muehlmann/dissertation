@@ -3,8 +3,8 @@
 ## This file processes the world values survey data                           ##
 ##                                                                            ##
 ##      Data included:                                                        ##
-##        wvs wave 3 -                                                        ## 
-##        https://www.worldvaluessurvey.org/WVSDocumentationWV3.jsp           ##    
+##        wvs wave 4 -                                                        ## 
+##        https://www.worldvaluessurvey.org/WVSDocumentationWV4.jsp           ##    
 ##                                                                            ##
 ##      Output | Last Save:                                                   ##
 ##                                                                            ##
@@ -34,14 +34,18 @@ center_header <- function(ft) {
 #   load data                                                               ####
 
 
-variable_values <- paste(c("V"), c(10:24, 27, 28, 30:35, 37, 51:57, 65, 66, 75:87, 89, 92:96,
-                                   106, 110:124, 135:138, 140, 141, 144:146, 178, 179, 192:205, 214:216,
-                                   218:220, 226, 232, 233), sep="")
+variable_values <- paste(c("V"), c(2, 4:34, 37:67, 68:76, "77_01", 78, 79, 83, 98:100,
+                                   103, 106, 109:145, 147:159, 161:163, 164:175,
+                                   186, 200:213, 216:218, 220, 223, 225, 237, 
+                                   "237B"), sep="")
+
+wds_w4 <- read_dta("./data/WVS/WV4 - F00011152-WV4_Data_R_v20201117/WV4_Data_stata_v20201117.dta")
 
 # n = 1200 (US)
-load("./data/WVS/WV4 - F00011152-WV4_Data_R_v20201117/WV4_Data_R_v20201117.rdata") 
+wds_w4 <- wds_w4 %>% 
+    filter(V2 == 840) %>%                                      # filter for USA
+    select(all_of(variable_values)) %>% 
+    age_range(., "V225")
 
-wds_w4 <- WV4_Data_R_v20201117 %>% 
-    filter(V2 == 840)# %>%                                       # filter for USA
-# select(all_of(variable_values))
+
 

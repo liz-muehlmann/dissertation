@@ -34,14 +34,15 @@ center_header <- function(ft) {
 #   load data                                                               ####
 
 
-variable_values <- paste(c("V"), c(10:24, 27, 28, 30:35, 37, 51:57, 65, 66, 75:87, 89, 92:96,
-                                   106, 110:124, 135:138, 140, 141, 144:146, 178, 179, 192:205, 214:216,
-                                   218:220, 226, 232, 233), sep="")
+variable_values <- paste(c("V"), c(2, 4:10, 12:57, 60:80, 84:124, "125_05", 
+                                   126:142, 144, 157:160, 170:180, 192:214,
+                                   216:224, 225:228, 229, 238, 240, 242, 248, 
+                                   254), sep="")
 
 # n = 2232 (US)
-load("./data/WVS/WV6 - F00011103-WV6_Data_R_v20201117/WV6_Data_R_v20201117.rdata") 
 
-wds_w6 <- WV6_Data_R_v20201117 %>% 
-    filter(V2 == 840)# %>%                                       # filter for USA
-# select(all_of(variable_values))
+wds_w6 <- read_dta("./data/WVS/WV6 - F00011103-WV6_Data_R_v20201117/F00011106-WV6_Data_stata_v20201117/WV6_Data_stata_v20201117.dta") %>% 
+    filter(V2 == 840) %>%                                       # filter for USA
+    select(all_of(variable_values)) %>% 
+    age_range(., "V242")
 

@@ -16,6 +16,7 @@
 
 library(openxlsx)
 library(stringr)
+library(stringdist)
 data("mtcars")
 source("./code/prelims.r")
 
@@ -147,14 +148,15 @@ wvs_w7 <- read_dta("./data/WVS/WV7 - F00011356-WVS_Cross-National_Wave_7_csv_v6_
 all_waves <- list(wvs_w1, wvs_w2, wvs_w3, wvs_w4, wvs_w5, wvs_w6, wvs_w7) 
 
 i = 1
-for(wave in all_waves) {
+for(w in all_waves) {
   
-  vars <- as.data.frame(look_for(wave))
-  vars <- vars %>%
-    select(pos, variable, label, missing) %>% 
+  v <- as.data.frame(look_for(w)) %>%
+    select(pos, variable, label, missing) %>%
     mutate(label = str_replace_all(label, "[^[:print:]]", ""))  # remove illegal xml characters
-  assign(paste("vars_", i, sep = ""), vars)
+
+  assign(paste("vars_", i, sep = ""), v)
   i = i + 1
+  print(i)
 }
 
 all_vars <- list(vars_1, vars_2, vars_3, vars_4, vars_5, vars_6, vars_7)
@@ -168,15 +170,11 @@ for (v in all_vars) {
   wv_n <- wv_n + 1
 }
 
-saveWorkbook(wb, './data/WVS/wvs_variables_all.xlsx')
+# saveWorkbook(wb, './data/WVS/wvs_variables_all.xlsx')
 
 
 
+#   ____________________________________________________________________________
+#   time series data
 
-
-
-
-
-
-
-
+wvs_trend <- read_dta("./data/WVS/Time Series - 1981-2022 - F00011932-WVS_Time_Series_1981-2022_Rdata_v5_0/F00011930-WVS_Time_Series_1981-2022_Stata_v5_0/WVS_Time_Series_1981-2022_stata_v5_0.dta")

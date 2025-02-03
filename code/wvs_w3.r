@@ -16,19 +16,6 @@
 
 source("./code/prelims.r")
 
-#   ____________________________________________________________________________
-#   custom functions                                                        ####
-
-labels <- function(ft) {
-    ft %>%
-        labelizor(labels = c("age_range" = "Age Range",
-                             "Mar. pct" = "Column ; Row %")) 
-}
-
-center_header <- function(ft) {
-    ft %>% 
-        align(align = "center", part = "header")
-}
 
 #   ____________________________________________________________________________
 #   load data                                                               ####

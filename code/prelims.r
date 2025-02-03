@@ -21,6 +21,7 @@ library(haven)              # read .sav files
 library(flextable)          # pretty tables | cross tabs
 library(modelsummary)       # pretty tables
 library(labelled)           # view variable names and labels
+library(ggplot2)            # graphs
 
 
 #   ____________________________________________________________________________
@@ -58,4 +59,19 @@ age_range <- function(df, age) {
                                      !!sym(age) >= 75 & !!sym(age) <= 84 ~ "75-84",
                                      !!sym(age) >= 85 & !!sym(age) != 999 ~ "85+",
                                      .default = NA))
+}
+
+
+#   ____________________________________________________________________________
+#   cross tab functions                                                     ####
+
+labels <- function(ft) {
+  ft %>%
+    labelizor(labels = c("age_range" = "Age Range",
+                         "Mar. pct" = "Column ; Row %")) 
+}
+
+center_header <- function(ft) {
+  ft %>% 
+    align(align = "center", part = "header")
 }

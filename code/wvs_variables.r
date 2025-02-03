@@ -21,20 +21,6 @@ data("mtcars")
 source("./code/prelims.r")
 
 #   ____________________________________________________________________________
-#   custom functions                                                        ####
-
-labels <- function(ft) {
-  ft %>%
-    labelizor(labels = c("age_range" = "Age Range",
-                         "Mar. pct" = "Column ; Row %")) 
-}
-
-center_header <- function(ft) {
-  ft %>% 
-    align(align = "center", part = "header")
-}
-
-#   ____________________________________________________________________________
 #   wave 1                                                                  ####
 
 # 
@@ -178,3 +164,8 @@ for (v in all_vars) {
 #   time series data
 
 wvs_trend <- read_dta("./data/WVS/Time Series - 1981-2022 - F00011932-WVS_Time_Series_1981-2022_Rdata_v5_0/F00011930-WVS_Time_Series_1981-2022_Stata_v5_0/WVS_Time_Series_1981-2022_stata_v5_0.dta")
+
+wvs_trend_vars <- as.data.frame(look_for(wvs_trend)) %>% 
+  select(pos, variable, label, missing)
+
+

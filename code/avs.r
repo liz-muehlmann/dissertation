@@ -55,13 +55,53 @@ for(w in all_waves) {
 all_vars <- list(vars_1, vars_2, vars_3, vars_4, vars_5, vars_6, vars_7, vars_8,
                  vars_9, vars_10, vars_11, vars_12, vars_13, vars_14, vars_15)
 
-wv_n <- 1
-wb <- createWorkbook()
-for (v in all_vars) {
-    sheet_name = paste("wave_", wv_n)
-    addWorksheet(wb, sheet_name)
-    writeData(wb, sheet_name, assign(paste("wave_w", wv_n, sep=""), v))
-    wv_n <- wv_n + 1
-}
+# wv_n <- 1
+# wb <- createWorkbook()
+# for (v in all_vars) {
+#     sheet_name = paste("wave_", wv_n)
+#     addWorksheet(wb, sheet_name)
+#     writeData(wb, sheet_name, assign(paste("wave_w", wv_n, sep=""), v))
+#     wv_n <- wv_n + 1
+# }
 
 # saveWorkbook(wb, './data/AVS/all_avs_waves.xlsx')
+
+
+#   ____________________________________________________________________________
+#   fuzzy matching question texts                                           ####
+
+# match1.2 <- stringdist_join(
+#     vars_1,
+#     vars_2,
+#     by = "label",
+#     mode = "left",
+#     method = "jw",
+#     max_dist = 0.2
+# ) %>% 
+#     filter(!is.na(pos.y))
+
+matches <- list()
+n <- 2
+for (v in all_vars) {
+    matched <- stringdist_join(
+        vars_1,
+        v,
+        by = "label",
+        mode = "left",
+        method = "jw",
+        max_dist = 0.2
+    ) %>% 
+        filter(!is.na(pos.y)) %>% 
+        mutate(wave = n)
+    matches[[n]] <- matched
+    n <- n+1
+}
+
+matchied <- do.call(rbind, matches)
+
+
+
+
+
+
+

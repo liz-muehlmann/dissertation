@@ -22,6 +22,8 @@ library(flextable)          # pretty tables | cross tabs
 library(modelsummary)       # pretty tables
 library(labelled)           # view variable names and labels
 library(ggplot2)            # graphs
+library(stringdist)         # fuzzy matching for questions
+library(fuzzyjoin)          # fuzzy mattching for questions
 
 
 #   ____________________________________________________________________________

@@ -49,7 +49,6 @@ for(w in all_waves) {
     
     assign(paste("vars_", i, sep = ""), v)
     i = i + 1
-    print(i)
 }
 
 all_vars <- list(vars_1, vars_2, vars_3, vars_4, vars_5, vars_6, vars_7, vars_8,
@@ -70,38 +69,59 @@ all_vars <- list(vars_1, vars_2, vars_3, vars_4, vars_5, vars_6, vars_7, vars_8,
 #   ____________________________________________________________________________
 #   fuzzy matching question texts                                           ####
 
-# match1.2 <- stringdist_join(
-#     vars_1,
-#     vars_2,
-#     by = "label",
-#     mode = "left",
-#     method = "jw",
-#     max_dist = 0.2
-# ) %>% 
-#     filter(!is.na(pos.y))
+## define and label all waves
+wave_labels <- c("vars_1" = 1,
+                 "vars_2" = 2, 
+                 "vars_3" = 3, 
+                 "vars_4" = 4, 
+                 "vars_5" = 5, 
+                 "vars_6" = 6, 
+                 "vars_7" = 7, 
+                 "vars_8" = 8,
+                 "vars_9" = 9, 
+                 "vars_10" = 10, 
+                 "vars_11" = 11, 
+                 "vars_12" = 12, 
+                 "vars_13" = 13, 
+                 "vars_14" = 14, 
+                 "vars_15" = 15)
 
+## create empty list
 matches <- list()
-n <- 2
-for (v in all_vars) {
-    matched <- stringdist_join(
-        vars_1,
-        v,
-        by = "label",
-        mode = "left",
-        method = "jw",
-        max_dist = 0.2
-    ) %>% 
-        filter(!is.na(pos.y)) %>% 
-        mutate(wave = n)
-    matches[[n]] <- matched
-    n <- n+1
+
+## iteratively compare each wave's questions
+## loop through each later and set it as a comparison wave -1
+for(ref in 1:(length(all_vars)-1)) {
+    ## compare each layer to the comparison wave
+    for(com in (ref + 1):length(all_vars)){
+        
+        ## get current comparison and reference waves
+        wave_ref <- wave_labels[[paste0("vars_", ref)]]
+        wave_com <- wave_labels[[paste0("vars_", com)]]
+        
+        ## fuzzy join reference wave and comparison wave 
+        matched <- stringdist_join(
+            all_vars[[ref]],
+            all_vars[[com]],
+            by = "label",
+            mode = "left",
+            method = "jw",
+            max_dist = 0.2) %>% 
+        filter(!is.na(pos.y)) %>%
+        mutate(wave_ref = wave_ref,
+               wave_com = wave_com) %>% 
+        rename(pos_ref = pos.x,
+               variable_ref = variable.x,
+               question_ref = label.x,
+               pos_com = pos.y,
+               variable_com = variable.y,
+               question_com = label.y)
+        
+        matches[[paste(ref, com, sep = "_")]] <- matched
+    }
 }
 
-matchied <- do.call(rbind, matches)
+# all_matches <- bind_cols(matched)
+all_matches <- do.call(rbind, matches) 
 
-
-
-
-
-
-
+# write.csv(all_matches, "./data/AVS/all_waves.csv", row.names = FALSE)

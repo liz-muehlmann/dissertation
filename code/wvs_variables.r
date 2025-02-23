@@ -88,14 +88,15 @@ wvs_w4 <- read_dta("./data/WVS/WV4 - F00011152-WV4_Data_R_v20201117/WV4_Data_sta
 #   wave 5                                                                  ####
 
 
-# wvs5_variables <- paste(c("V"), c(1, 2, 4:44, 46, 47, 51:55, 57:74, 76:103, 
-#                                    114:145, "146_05", 147:164, 166:169, 177, 185, 194:211, 223:233,
-#                                    235, 237, 238, 252, 256), sep="")
+wvs5_variables <- paste(c("V"), c(22,23, 45, 46, 60:62, 64, 69, 70:72, 77,
+                                  95, 97, 98, 114, 116, 131, 133, 135, 136, 140,
+                                  143, 144, 147:151, 164, 187, 198:207, 209, 
+                                  240, 252, 253), sep="")
 
 # n = 1249 (US)
 wvs_w5 <- readRDS("./data/WVS/WV5 - F00007944-WV5_Data_R_v20180912/F00007944-WV5_Data_R_v20180912.rds") %>% 
   filter(V2 == 840)  %>%                                       # filter for USA
-  # select(all_of(wvs5_variables)) %>% 
+  select(all_of(wvs5_variables)) #%>%
   age_range(., "V237")
 
 #   ____________________________________________________________________________
@@ -268,13 +269,18 @@ wvs_trend <- read_dta("./data/WVS/Time Series - 1981-2022 - F00011932-WVS_Time_S
 
 ## people of different religion not asked in first two waves
 ## var = a124_12
+min_max <- list(
+  min = ~min(.x, na.rm = TRUE), 
+  max = ~max(.x, na.rm = TRUE)
+)
+
 not_asked <- wvs_trend %>%
+  select(-starts_with(c("COW", "COUNTRY"))) %>% 
   group_by(S024) %>%
-  summarise(across(everything(), ~ any(. == -5))) %>% 
-  filter_all(any_vars(. %in% TRUE))
+  summarize(
+    across(where(is.numeric), min_max))
 
-
-
+## next filter for where min & max are the same.
 
 
 
